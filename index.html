@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F-3 Contest-1(Employee Form)</title>
+    <style>
+        *{
+            background-color: black;
+            color: #ffffff;
+            box-sizing: border-box;
+            font-family: 'Roboto';
+            padding-top: 10px;
+        }
+        .emp-container{
+            margin: 20px;
+        }
+        #emp-form{
+            display: flex;
+            align-items: center;
+            gap: 20px;     
+        }
+        .column{
+            flex-basis: 30%;
+            font-size: 20px;
+            margin-top: 20px;
+        
+        }
+        .column input{
+            width: 400px;
+            padding: 10px;
+            font-size: 18px;
+            margin: 15px 0px;
+            border-radius: 8px;
+            border: 1px solid white;
+        }
+        #btn{
+            font-size: 24px;
+            background-color: #ffffff;
+            color: black;
+            border-radius: 4px;
+            padding: 8px 26px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        p{
+            font-size:20px;
+        }
+        #default-text{
+            color: #aca2a2;
+        }
+        .message{
+            margin: 20px 0px;
+        }
+        td{
+            padding: 20px;
+        }
+        tr{
+            border: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+    <div class="emp-container">
+        <h2>New Employees</h2>
+        <div id="emp-form"> 
+        <div class="column">
+            <label for="name">Enter Name</label><br>
+            <input type ="text" id="emp-name">
+        </div>
+        <div class="column">
+            <label for="profession">Enter Profession</label><br>
+            <input type ="text" id="emp-profession">
+        </div>
+        <div class="column">
+            <label for="age">Enter Age</label><br>
+            <input type ="number" id="emp-age">
+        </div>
+    </div>
+    <button type="submit" id="btn">Add User</button>
+      <div class="message">
+      </div>
+        <p id="add-emp-text">Added Employees</p>
+        <p id="default-text">You have 0 Employees.</p>
+        <div class="emp-added-info">
+        </div>
+    </div>
+    
+    <script>
+        let empName = document.getElementById("emp-name");
+        let empProfession = document.getElementById("emp-profession");
+        let empAge = document.getElementById("emp-age");
+
+        document.getElementById("btn").addEventListener('click',myMessage);
+        function myMessage(){
+            let message = document.querySelector(".message");
+
+            if(empName.value == "" || empAge.value == "" || empProfession.value ==""){      
+                message.style.color='red';
+            message.innerHTML = "Error : Please Make sure All the fields are filled before adding in an employee !";
+            }
+            else{
+
+                message.style.color='green';
+                message.innerHTML = "Success : Employee Added!";
+                employeeDetails();
+                reset();
+            }
+        }
+        let empArr=[];
+        let count = 1;
+
+        function employeeDetails(){
+
+        let emp = {
+            Name : empName.value,
+            Profession : empProfession.value,
+            Age : empAge.value
+        }
+
+        empArr.push(emp);
+        document.getElementById("default-text").style.display ='none';
+
+
+        let empDetails = document.querySelector(".emp-added-info");
+        let trTag = document.createElement("tr");
+
+        trTag.innerHTML = "";
+
+        empArr.map((emps,idx)=>{
+            trTag.innerHTML =
+            `<td>${idx+1}</td> <td>Name : ${emps.Name}</td> <td> Profession : ${emps.Profession}</td> <td>Age : ${emps.Age}</td> <span><button id ="del-btn" style =" background-color:white; color:black; padding:10px 40px; border-radius:20px; border:none; font-size:16px"
+            onclick="onDelete(this)">Delete User</button></span>`;
+            empDetails.appendChild(trTag);
+
+        })
+
+        console.log(empArr);
+
+        }
+
+        function reset(){
+
+        document.getElementById("emp-name").value = "";
+        document.getElementById("emp-profession").value = "";
+        document.getElementById("emp-age").value = "";
+        }
+
+        let onDelete = (e)=>{
+            e.parentElement.parentElement.remove();
+        }
+    </script>
+</body>
+</html>
